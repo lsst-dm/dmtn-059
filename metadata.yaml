@@ -40,11 +40,8 @@ copyright: '2017, AURA/LSST'
 description: 'Try running ci_HSC pipeline using DESDM Framework'
 
 # Abstract, if available
-# abstract: >
-#           Write your paragraph
-#           here with multiple lines.
-#
-#           You can have multiple paragraphs too.
+abstract: >
+    The goal was to see if we can run a pipeline similar to the ci_HSC pipeline through an existing production workflow system such as the DESDM framework.  This tech note describes the work that was done as well as problems and concerns.  We were able to show that we could run an LSST pipeline inside the DESDM framework with minimal framework changes but with a few changes on the pipeline side. The end result is not a production-ready ci_HSC pipeline in the Batch Processing Service, but merely that there are no immediate technical blockers.
 
 # URL where this document is published by Read the Docs. e.g. http://sqr-001.lsst.codes
 url: 'https://dmtn-059.lsst.io'
