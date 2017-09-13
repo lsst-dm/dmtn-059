@@ -7,7 +7,7 @@ through an existing production workflow system.
 1. Pipeline steps: ``processCcd``, ``makeCoaddTempExp``, ``assembleCoadd``, ``detectCoaddSources``, ``mergeCoaddDetections``, ``measureCoaddSources``, ``mergeCoaddMeasurements``, ``forcedPhotCoadd``
 2. Use the command-line task version of each pipeline step
 3. LSST software stack: ``setup obs_subaru -t w_2017_14``
-4. Data inputs: ``ci_hsc`` data configured to use different skymap configuration containing 4 patches within 1 tract (to match testing by Hsin-Fang: https://jira.lsstcorp.org/browse/DM-8603)
+4. Data inputs: ``ci_hsc`` data configured to use different skymap configuration containing 4 patches within 1 tract (to match testing by Hsin-Fang: `DM-8603 <https://jira.lsstcorp.org/browse/DM-8603>`_)
 5. Chose to use DESDM's framework for the existing production workflow system.
 6. Only use the butler inside a compute job. If multiple steps were done inside same compute job, they shared the same butler repository.
 7. See whether any code changes are necessary to the DESDM framework.
