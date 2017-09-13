@@ -53,7 +53,7 @@ Find deepcoadd calexp files (tagged final run with PROTO-0.1)::
 
 
 .. figure:: /_static/calexp-HSC-I-0-8x7-r11p95.jpeg
-    :name: calexp-HSC-I-0-8x7-r11p95.jpeg (created jpeg using DS9 on fits file)
+    :name: Image ``calexp-HSC-I-0-8x7-r11p95.jpeg`` was created manually using DS9 on FITS file.
 
 
 Query DB to see how many executions of each step::
@@ -91,7 +91,7 @@ Concept matching between DESDM FW and LSST
 
    -  DESDM: (“Home Archive”) File system, backups to spinning archive and tape at Fermilab.
 
-   -  LSST: Part of the Data Backbone (still in design phase),
+   -  LSST: Part of the Data Backbone (still in design phase)
 
 -  (Global) File Registry:
 
@@ -240,7 +240,7 @@ Concept matching between DESDM FW and LSST
 
 -  Monitoring submissions:
 
-   -  DESDM: desstat (thin “science” layer around condor\_q), print\_job.py (shows status inside a compute job by querying central DB), summary web pages, loads of information within DB that can be queried, summarized, etc.
+   -  DESDM: ``desstat`` (thin “science” layer around ``condor_q``), ``print_job.py`` (shows status inside a compute job by querying central DB), summary web pages, loads of information within DB that can be queried, summarized, etc.
 
    -  LSST:
 
@@ -272,7 +272,7 @@ Work done to provide prototype 0.1
 2.  0 changes needed to be made to the DESDM framework itself. Some plugins and specialized wrappers and query codes needed to be written.
 3.  Ingest HSC raw files into file catalog, metadata tables
 
-    a. DESDM allows plugins for file ingestion. Wrote an HSC raw plugin.  Since HSC raw files are fits file should be close to normal DES file ingestion.
+    a. DESDM allows plugins for file ingestion. Wrote an HSC raw plugin.  Since HSC raw files are FITS files should be close to normal DES file ingestion.
 
        i.  Was going to use pre-defined LSST functions to convert headers to values (e.g., expid or frameid into visit), but those require special LSST metadata object (as opposed to taking one header value and converting it) So, for now I copied sections of the LSST code into functions that take header value(s) and converts them.
 
@@ -280,7 +280,7 @@ Work done to provide prototype 0.1
 
 4.  For every new DESDM filetype needed to add definitions describing on how to gather metadata.
 
-    a. As mentioned in the raw section, currently treating files as regular fits files and using the same mechanism to read the files as DESDM. With the afwimage layer and butler layer trying to abstract away the format of the file, this is probably not the long term solution.
+    a. As mentioned in the raw section, currently treating files as regular FITS files and using the same mechanism to read the files as DESDM. With the afwimage layer and butler layer trying to abstract away the format of the file, this is probably not the long term solution.
 
 5.  Manually ran command-line tasks to produce schema files. Saved with unique filenames (e.g., :file:`deepCoadd_peak_Vw_2017_14.fits` where `w_2017_14` is the software stack version) in DESDM archive.  (Wrote a script to make it easier to generate new files. But could write a pipeline to do this which would automatically put files in home archive.)
 
@@ -359,13 +359,13 @@ Workaround: In my copy of stack, changed the comma to be ``'x'``. Required chang
 Butler questions/concerns
 =========================
 
--  Currently only using Butler for inside of jobs (because science pipelines requires it). If multiple steps were done inside same compute job, they shared the same butler repository.
--  Registry.sqlite3, (non-Butler) ingestImages.py, calibRegistry.sqlite3, (non-Butler) ingestCalibs.py.  Took a while to understand that the Butler registry files aren’t really a file registry. I kept trying to run ingestImages.py on non-raw files (e.g., image output of processCCD) to initialize a butler from scratch. The Butler registry for images is more of a list of data id combinations (visit + ccd) to be used in cases where not enough data ids are included to find the file.
--  Running ingestImages.py or ingestCalibs.py must either use directory structure/filenames to determine information to put in the .sqlite3 file. Doing this once per job is too costly. Doing it once per large subset of campaigns wouldn’t be as expensive.
+-  Currently only using Butler for inside of jobs (because science pipelines requires it). If multiple steps were done inside same compute job, they shared the same Butler repository.
+-  Registry.sqlite3, (non-Butler) ``ingestImages.py``, calibRegistry.sqlite3, (non-Butler) ``ingestCalibs.py``.  Took a while to understand that the Butler registry files aren’t really a file registry. I kept trying to run ``ingestImages.py`` on non-raw files (e.g., image output of processCCD) to initialize a butler from scratch. The Butler registry for images is more of a list of data id combinations (visit + ccd) to be used in cases where not enough data ids are included to find the file.
+-  Running ``ingestImages.py`` or ``ingestCalibs.py`` must either use directory structure/filenames to determine information to put in the .sqlite3 file. Doing this once per job is too costly. Doing it once per large subset of campaigns wouldn’t be as expensive.
 -  Heard mentions of Butler’s sqlite3 file growing into a mini DBB where metadata can be mapped to rel path + filename (i.e., a real file registry). In most ways this will more fit normal operations. The downside would be creating the initial registry per job. We’d want to limit the number of times files have to be opened to read metadata (which the production framework could have already retrieved from the global metadata service).
    -  Need to follow through with Nate and K-T.
 -  Must rename/make soft link to HSC raw files because filename does not contain enough metadata (would be fixed with a real file registry)
--  Future work is needed to keeping operations filename and directory patterns for inside the job in sync with Butler filename and directory patterns
+-  Future work is needed to keeping operations filename and directory patterns for inside the job in sync with Butler filename and directory patterns.
 -  Need to request a function in Butler to dump merged policy definitions so that we have an easy place to manually make changes (i.e., know exactly all the datasetTypes it controls) as well as help debug file naming issues.
 -  As mentioned in the work section, current Butler policy workaround will not work in operations if input files of same datasetType come from different processing attempts (i.e., if different reqnum, attnum). So need to discuss with Nate what real Butler solution is.
 
